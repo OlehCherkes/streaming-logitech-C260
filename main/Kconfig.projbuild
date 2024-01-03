@@ -1,0 +1,89 @@
+menu "Application Configuration"
+
+	config ESP_WIFI_SSID
+		string "WiFi SSID"
+		default "myssid"
+		help
+			SSID (network name) to connect to.
+
+	config ESP_WIFI_PASSWORD
+		string "WiFi Password"
+		default "mypassword"
+		help
+			WiFi password (WPA or WPA2) to use.
+
+	config ESP_MAXIMUM_RETRY
+		int "Maximum retry"
+		default 5
+		help
+			Set the Maximum retry to avoid station reconnecting to the AP unlimited when the AP is really inexistent.
+
+	config MDNS_HOSTNAME
+		string "mDNS Hostname"
+		default "esp-cam"
+		help
+			mDNS Hostname to use
+
+	config MANUAL_SETTING
+		bool "Manual Setting"
+		default n
+		help
+			Enable Manual Setting.
+
+	choice FRAME_SIZE
+		prompt "Select Frame Size"
+		depends on MANUAL_SETTING
+		default SIZE_320x240
+		help
+			Select Frame Size.
+		config SIZE_640x480
+			bool "640x480"
+			help
+				640x480.
+		config SIZE_352x288
+			bool "352x288"
+			help
+				352x288.
+		config SIZE_320x240
+			bool "320x240"
+			help
+				320x640.
+		config SIZE_160x120
+			bool "160x120"
+			help
+				160x120.
+	endchoice
+
+	choice FRAME_FORMAT
+		prompt "Select Frame Format"
+		depends on MANUAL_SETTING
+		default FORMAT_YUY2
+		help
+			Select Frame Format.
+		config FORMAT_YUY2
+			bool "UncompressedFormat"
+			help
+				UncompressedFormat.
+		config FORMAT_MJPG
+			bool "MJPEGFormat"
+			help
+				MJPEGFormat.
+	endchoice
+
+	config FRAME_RATE
+		int "Frame Rate"
+		depends on SIZE_640x480
+		range 0 30
+		default 30
+		help
+			Set the Frame Rate.
+
+	config FRAME_RATE
+		int "Frame Rate"
+		depends on !SIZE_640x480
+		range 0 30
+		default 30
+		help
+			Set the Frame Rate.
+
+endmenu
